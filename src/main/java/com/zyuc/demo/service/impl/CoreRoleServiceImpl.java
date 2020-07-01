@@ -1,9 +1,7 @@
 package com.zyuc.demo.service.impl;
 
-import com.zyuc.demo.common.ErrorEnum;
-import com.zyuc.demo.common.ZyException;
-import com.zyuc.demo.entity.CoreRole;
 import com.zyuc.demo.dao.CoreRoleDao;
+import com.zyuc.demo.entity.CoreRole;
 import com.zyuc.demo.service.CoreRoleService;
 import org.springframework.stereotype.Service;
 

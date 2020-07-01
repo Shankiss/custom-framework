@@ -2,10 +2,6 @@ package com.zyuc.demo.common;
 
 import org.apache.ibatis.cache.CacheKey;
 import org.apache.ibatis.executor.Executor;
-import org.apache.ibatis.javassist.ClassPool;
-import org.apache.ibatis.javassist.CtClass;
-import org.apache.ibatis.javassist.CtMethod;
-import org.apache.ibatis.javassist.NotFoundException;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.ParameterMapping;

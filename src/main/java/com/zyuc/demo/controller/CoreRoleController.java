@@ -7,7 +7,9 @@ import com.zyuc.demo.entity.User;
 import com.zyuc.demo.service.CoreRoleService;
 import com.zyuc.demo.utils.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.List;
