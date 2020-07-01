@@ -1,0 +1,44 @@
+<configuration scan="false" scanPeriod="60 seconds" debug="false">
+
+	<property resource="application.properties" />
+	<property name="LOG_HOME" value="logs" />
+	<property name="APP_NAME" value="zyuc"/>
+	<!-- 彩色日志依赖的渲染类 -->
+	<conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
+	<conversionRule conversionWord="wex" converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter" />
+	<conversionRule conversionWord="wEx" converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter" />
+	<!-- 彩色日志格式 -->
+	<property name="CONVERSION_PATTERN" value="${CONSOLE_LOG_PATTERN:-%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
+
+	<timestamp key="bySecond" datePattern="yyyyMMdd'-'HHmmss"/>
+
+	<appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>${CONVERSION_PATTERN}</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="root-file-info" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_HOME}/run/${bySecond}.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_HOME}/${APP_NAME}-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+			<maxFileSize>100MB</maxFileSize>
+			<maxHistory>365</maxHistory>
+			<totalSizeCap>20GB</totalSizeCap>
+		</rollingPolicy>
+
+		<encoder>
+			<pattern>${CONVERSION_PATTERN}</pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>${zyuc.log.lever}</level>
+		</filter>
+	</appender>
+
+	<logger name="com.zyuc.demo" level="DEBUG" addtivity="false"/>
+
+	<root level="info">
+		<appender-ref ref="stdout" />
+		<appender-ref ref="root-file-info"/>
+	</root>
+</configuration>

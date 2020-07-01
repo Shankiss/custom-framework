@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zyuc.demo.dao.CoreRoleDao">
+
+    <resultMap type="com.zyuc.demo.entity.CoreRole" id="CoreRoleMap">
+        <result property="id" column="ID" jdbcType="INTEGER"/>
+        <result property="code" column="CODE" jdbcType="VARCHAR"/>
+        <result property="name" column="NAME" jdbcType="VARCHAR"/>
+        <result property="createTime" column="CREATE_TIME" jdbcType="TIMESTAMP"/>
+        <result property="type" column="TYPE" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="CoreRoleMap">
+        select
+          ID, CODE, NAME, CREATE_TIME, TYPE
+        from core_role
+        where ID = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="CoreRoleMap">
+        select
+          ID, CODE, NAME, CREATE_TIME, TYPE
+        from core_role
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="CoreRoleMap">
+        select
+          ID, CODE, NAME, CREATE_TIME, TYPE
+        from core_role
+        <where>
+            <if test="id != null">
+                and ID = #{id}
+            </if>
+            <if test="code != null and code != ''">
+                and CODE = #{code}
+            </if>
+            <if test="name != null and name != ''">
+                and NAME = #{name}
+            </if>
+            <if test="createTime != null">
+                and CREATE_TIME = #{createTime}
+            </if>
+            <if test="type != null and type != ''">
+                and TYPE = #{type}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into core_role(CODE, NAME, CREATE_TIME, TYPE)
+        values (#{code}, #{name}, #{createTime}, #{type})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update core_role
+        <set>
+            <if test="code != null and code != ''">
+                CODE = #{code},
+            </if>
+            <if test="name != null and name != ''">
+                NAME = #{name},
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME = #{createTime},
+            </if>
+            <if test="type != null and type != ''">
+                TYPE = #{type},
+            </if>
+        </set>
+        where ID = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from core_role where ID = #{id}
+    </delete>
+
+</mapper>

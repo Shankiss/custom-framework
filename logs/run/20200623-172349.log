@@ -1,0 +1,3 @@
+[2m2020-06-24 09:14:18.220[0;39m [32m INFO[0;39m [35m23140[0;39m [2m---[0;39m [2m[extShutdownHook][0;39m [36mo.s.s.concurrent.ThreadPoolTaskExecutor [0;39m [2m:[0;39m Shutting down ExecutorService 'applicationTaskExecutor'
+[2m2020-06-24 09:14:18.230[0;39m [32m INFO[0;39m [35m23140[0;39m [2m---[0;39m [2m[extShutdownHook][0;39m [36mcom.alibaba.druid.pool.DruidDataSource  [0;39m [2m:[0;39m {dataSource-1} closing ...
+[2m2020-06-24 09:14:18.247[0;39m [32m INFO[0;39m [35m23140[0;39m [2m---[0;39m [2m[extShutdownHook][0;39m [36mcom.alibaba.druid.pool.DruidDataSource  [0;39m [2m:[0;39m {dataSource-1} closed
