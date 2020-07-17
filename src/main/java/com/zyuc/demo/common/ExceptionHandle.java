@@ -1,5 +1,6 @@
 package com.zyuc.demo.common;
 
+import com.zyuc.demo.enums.ErrorEnum;
 import com.zyuc.demo.utils.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,14 +24,14 @@ public class ExceptionHandle {
     public ResponseMsg handle(Exception e) {
         Integer errorCode;
         String msg;
-        if (e instanceof ZyException) {
-            ZyException zyException = (ZyException) e;
-            errorCode = zyException.getCode();
-            msg = zyException.getMessage();
+        if (e instanceof ServiceException) {
+            ServiceException serviceException = (ServiceException) e;
+            errorCode = serviceException.getCode();
+            msg = serviceException.getMessage();
         } else {
-            logger.error("【系统异常】{}", e);
-            errorCode = ErrorEnum.UNKNOWN_ERROR.getCode();
-            msg = ErrorEnum.UNKNOWN_ERROR.getMsg();
+            logger.error("【系统异常】{}", e.getMessage());
+            errorCode = ErrorEnum.INTERNAL_SERVER_ERROR.getCode();
+            msg = ErrorEnum.INTERNAL_SERVER_ERROR.getMsg();
         }
         return ResponseUtil.error(errorCode, msg);
     }

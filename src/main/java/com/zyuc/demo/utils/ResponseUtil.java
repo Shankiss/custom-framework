@@ -1,7 +1,7 @@
 package com.zyuc.demo.utils;
 
-import com.zyuc.demo.common.Constants;
 import com.zyuc.demo.common.ResponseMsg;
+import com.zyuc.demo.enums.StateEnum;
 
 /**
  * @Version 1.0
@@ -11,10 +11,17 @@ import com.zyuc.demo.common.ResponseMsg;
  */
 public class ResponseUtil {
 
+    public static ResponseMsg success(){
+        ResponseMsg responseMsg = new ResponseMsg();
+        responseMsg.setCode(StateEnum.SUCCESS.getCode());
+        responseMsg.setMsg(StateEnum.SUCCESS.getMsg());
+        return responseMsg;
+    }
+
     public static ResponseMsg success(Object object) {
         ResponseMsg responseMsg = new ResponseMsg();
-        responseMsg.setCode(Constants.SUCCESS_CODE);
-        responseMsg.setMsg("成功");
+        responseMsg.setCode(StateEnum.SUCCESS.getCode());
+        responseMsg.setMsg(StateEnum.SUCCESS.getMsg());
         responseMsg.setData(object);
         return responseMsg;
     }

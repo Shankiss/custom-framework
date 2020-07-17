@@ -1,18 +1,24 @@
 package com.zyuc.demo.common;
 
+import com.zyuc.demo.enums.ErrorEnum;
+
 /**
  * @Version 1.0
  * @Description 自定义异常
  * @Date 2020/5/8 13:42
  * @Created by ChenHao
  */
-public class ZyException extends RuntimeException {
+public class ServiceException extends RuntimeException {
 
     private Integer code;
 
-    public ZyException(ErrorEnum errorEnum) {
+    public ServiceException(ErrorEnum errorEnum) {
         super(errorEnum.getMsg());
         this.code = errorEnum.getCode();
+    }
+
+    public ServiceException(String message, Throwable cause) {
+        super(message, cause);
     }
 
     public Integer getCode() {
