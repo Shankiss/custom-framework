@@ -40,7 +40,7 @@ public class TestDemo extends Tester {
 //        user.setNickName("土豆-1");
 //        List<User> list = (List<User>) restTemplate.getForObject(url, User.class, user);
         logger.info(">>>>>>>>>>>>> 请求url，{}", url + 1);
-        logger.info(">>>>>>>>>>>>> 返回信息，{}", JSON.toJSONString(restTemplate.getForObject(url, User.class, user)));
+//        logger.info(">>>>>>>>>>>>> 返回信息，{}", JSON.toJSONString(restTemplate.getForObject(url, User.class, user)));
 
     }
 
