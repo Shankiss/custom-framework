@@ -8,12 +8,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
-import tk.mybatis.spring.mapper.MapperScannerConfigurer;
 
 import javax.sql.DataSource;
 import java.util.Properties;
 
-import static com.zyuc.demo.constant.ProjectConstant.*;
+import static com.zyuc.demo.constant.ProjectConstant.MODEL_PACKAGE;
 
 
 /**
@@ -47,22 +46,5 @@ public class MybatisConfigurer {
         factory.setMapperLocations(resolver.getResources("classpath:mapper/*.xml"));
         return factory.getObject();
     }
-
-    @Bean
-    public MapperScannerConfigurer mapperScannerConfigurer() {
-        MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
-        mapperScannerConfigurer.setSqlSessionFactoryBeanName("sqlSessionFactoryBean");
-        mapperScannerConfigurer.setBasePackage(MAPPER_PACKAGE);
-
-        //配置通用Mapper，详情请查阅官方文档
-        Properties properties = new Properties();
-        properties.setProperty("mappers", MAPPER_INTERFACE_REFERENCE);
-        properties.setProperty("notEmpty", "false");//insert、update是否判断字符串类型!='' 即 test="str != null"表达式内是否追加 and str != ''
-        properties.setProperty("IDENTITY", "MYSQL");
-        mapperScannerConfigurer.setProperties(properties);
-
-        return mapperScannerConfigurer;
-    }
-
 }
 

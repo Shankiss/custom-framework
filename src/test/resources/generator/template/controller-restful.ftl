@@ -11,8 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
-import static ${basePackage}.constant.DigitalConstant.*;
-
 /**
 * @Description TODO
 * @Date ${date}
@@ -49,16 +47,15 @@ public class ${modelNameUpperCamel}Controller {
     @GetMapping("/{id}")
     @MyLog(description = "检索${comment}详情")
     public ResponseMsg detail(@PathVariable Integer id) {
-        ${modelNameUpperCamel} ${modelNameLowerCamel} = ${modelNameLowerCamel}Service.findById(id);
+        ${modelNameUpperCamel} ${modelNameLowerCamel} = ${modelNameLowerCamel}Service.qryById(id);
         return ResponseUtil.success(${modelNameLowerCamel});
     }
 
     @GetMapping
     @MyLog(description = "检索${comment}列表")
-    public ResponseMsg list(@RequestParam(defaultValue = DEFAULT_PAGE_NUM) Integer page,
-                            @RequestParam(defaultValue = DEFAULT_PAGE_SIZE) Integer size) {
-        PageHelper.startPage(page, size);
-        List<${modelNameUpperCamel}> list = ${modelNameLowerCamel}Service.findAll();
+    public ResponseMsg list(@RequestBody ${modelNameUpperCamel} ${modelNameLowerCamel}) {
+        PageHelper.startPage(${modelNameLowerCamel}.getPageNo(), ${modelNameLowerCamel}.getPageSize());
+        List<${modelNameUpperCamel}> list = ${modelNameLowerCamel}Service.page(${modelNameLowerCamel});
         PageInfo pageInfo = new PageInfo(list);
         return ResponseUtil.success(pageInfo);
     }

@@ -1,8 +1,10 @@
 import com.google.common.base.CaseFormat;
 import freemarker.template.TemplateExceptionHandler;
 import org.apache.commons.lang3.StringUtils;
+import org.mybatis.generator.api.CommentGenerator;
 import org.mybatis.generator.api.MyBatisGenerator;
 import org.mybatis.generator.config.*;
+import org.mybatis.generator.internal.DefaultCommentGenerator;
 import org.mybatis.generator.internal.DefaultShellCallback;
 
 import java.io.File;
@@ -75,77 +77,79 @@ public class CodeGenerator {
      * @param comment   数据表中文名
      */
     public static void genCodeByCustomModelName(String tableName, String modelName, String comment) {
-        genModelAndMapper(tableName, modelName);
+//        genModelAndMapper(tableName, modelName);
         genService(tableName, modelName);
         genController(tableName, modelName, comment);
     }
 
 
-    public static void genModelAndMapper(String tableName, String modelName) {
-        Context context = new Context(ModelType.FLAT);
-        context.setId("Potato");
-        context.setTargetRuntime("MyBatis3Simple");
-        context.addProperty(PropertyRegistry.CONTEXT_BEGINNING_DELIMITER, "`");
-        context.addProperty(PropertyRegistry.CONTEXT_ENDING_DELIMITER, "`");
-
-        JDBCConnectionConfiguration jdbcConnectionConfiguration = new JDBCConnectionConfiguration();
-        jdbcConnectionConfiguration.setConnectionURL(JDBC_URL);
-        jdbcConnectionConfiguration.setUserId(JDBC_USERNAME);
-        jdbcConnectionConfiguration.setPassword(JDBC_PASSWORD);
-        jdbcConnectionConfiguration.setDriverClass(JDBC_DIVER_CLASS_NAME);
-        context.setJdbcConnectionConfiguration(jdbcConnectionConfiguration);
-
-        PluginConfiguration pluginConfiguration = new PluginConfiguration();
-        pluginConfiguration.setConfigurationType("tk.mybatis.mapper.generator.MapperPlugin");
-        pluginConfiguration.addProperty("mappers", MAPPER_INTERFACE_REFERENCE);
-        context.addPluginConfiguration(pluginConfiguration);
-
-        JavaModelGeneratorConfiguration javaModelGeneratorConfiguration = new JavaModelGeneratorConfiguration();
-        javaModelGeneratorConfiguration.setTargetProject(PROJECT_PATH + JAVA_PATH);
-        javaModelGeneratorConfiguration.setTargetPackage(MODEL_PACKAGE);
-        context.setJavaModelGeneratorConfiguration(javaModelGeneratorConfiguration);
-
-        SqlMapGeneratorConfiguration sqlMapGeneratorConfiguration = new SqlMapGeneratorConfiguration();
-        sqlMapGeneratorConfiguration.setTargetProject(PROJECT_PATH + RESOURCES_PATH);
-        sqlMapGeneratorConfiguration.setTargetPackage("mapper");
-        context.setSqlMapGeneratorConfiguration(sqlMapGeneratorConfiguration);
-
-        JavaClientGeneratorConfiguration javaClientGeneratorConfiguration = new JavaClientGeneratorConfiguration();
-        javaClientGeneratorConfiguration.setTargetProject(PROJECT_PATH + JAVA_PATH);
-        javaClientGeneratorConfiguration.setTargetPackage(MAPPER_PACKAGE);
-        javaClientGeneratorConfiguration.setConfigurationType("XMLMAPPER");
-        context.setJavaClientGeneratorConfiguration(javaClientGeneratorConfiguration);
-
-        TableConfiguration tableConfiguration = new TableConfiguration(context);
-        tableConfiguration.setTableName(tableName);
-        if (StringUtils.isNotEmpty(modelName)) tableConfiguration.setDomainObjectName(modelName);
-        tableConfiguration.setGeneratedKey(new GeneratedKey("id", "Mysql", true, null));
-        context.addTableConfiguration(tableConfiguration);
-
-        List<String> warnings;
-        MyBatisGenerator generator;
-        try {
-            Configuration config = new Configuration();
-            config.addContext(context);
-            config.validate();
-
-            boolean overwrite = true;
-            DefaultShellCallback callback = new DefaultShellCallback(overwrite);
-            warnings = new ArrayList<String>();
-            generator = new MyBatisGenerator(config, callback, warnings);
-            generator.generate(null);
-        } catch (Exception e) {
-            throw new RuntimeException("生成Model和Mapper失败", e);
-        }
-
-        if (generator.getGeneratedJavaFiles().isEmpty() || generator.getGeneratedXmlFiles().isEmpty()) {
-            throw new RuntimeException("生成Model和Mapper失败：" + warnings);
-        }
-        if (StringUtils.isEmpty(modelName)) modelName = tableNameConvertUpperCamel(tableName);
-        System.out.println(modelName + ".java 生成成功");
-        System.out.println(modelName + "Mapper.java 生成成功");
-        System.out.println(modelName + "Mapper.xml 生成成功");
-    }
+//    public static void genModelAndMapper(String tableName, String modelName) {
+//        Context context = new Context(ModelType.FLAT);
+//        context.setId("Potato");
+//        context.setTargetRuntime("MyBatis3Simple");
+//        context.addProperty(PropertyRegistry.CONTEXT_BEGINNING_DELIMITER, "`");
+//        context.addProperty(PropertyRegistry.CONTEXT_ENDING_DELIMITER, "`");
+//
+//        JDBCConnectionConfiguration jdbcConnectionConfiguration = new JDBCConnectionConfiguration();
+//        jdbcConnectionConfiguration.setConnectionURL(JDBC_URL);
+//        jdbcConnectionConfiguration.setUserId(JDBC_USERNAME);
+//        jdbcConnectionConfiguration.setPassword(JDBC_PASSWORD);
+//        jdbcConnectionConfiguration.setDriverClass(JDBC_DIVER_CLASS_NAME);
+//        context.setJdbcConnectionConfiguration(jdbcConnectionConfiguration);
+//
+////        PluginConfiguration pluginConfiguration = new PluginConfiguration();
+////        pluginConfiguration.setConfigurationType("tk.mybatis.mapper.generator.MapperPlugin");
+////        pluginConfiguration.addProperty("mappers", MAPPER_INTERFACE_REFERENCE);
+////        context.addPluginConfiguration(pluginConfiguration);
+//
+//        DefaultCommentGenerator
+//
+//        JavaModelGeneratorConfiguration javaModelGeneratorConfiguration = new JavaModelGeneratorConfiguration();
+//        javaModelGeneratorConfiguration.setTargetProject(PROJECT_PATH + JAVA_PATH);
+//        javaModelGeneratorConfiguration.setTargetPackage(MODEL_PACKAGE);
+//        context.setJavaModelGeneratorConfiguration(javaModelGeneratorConfiguration);
+//
+//        SqlMapGeneratorConfiguration sqlMapGeneratorConfiguration = new SqlMapGeneratorConfiguration();
+//        sqlMapGeneratorConfiguration.setTargetProject(PROJECT_PATH + RESOURCES_PATH);
+//        sqlMapGeneratorConfiguration.setTargetPackage("mapper");
+//        context.setSqlMapGeneratorConfiguration(sqlMapGeneratorConfiguration);
+//
+//        JavaClientGeneratorConfiguration javaClientGeneratorConfiguration = new JavaClientGeneratorConfiguration();
+//        javaClientGeneratorConfiguration.setTargetProject(PROJECT_PATH + JAVA_PATH);
+//        javaClientGeneratorConfiguration.setTargetPackage(MAPPER_PACKAGE);
+//        javaClientGeneratorConfiguration.setConfigurationType("XMLMAPPER");
+//        context.setJavaClientGeneratorConfiguration(javaClientGeneratorConfiguration);
+//
+//        TableConfiguration tableConfiguration = new TableConfiguration(context);
+//        tableConfiguration.setTableName(tableName);
+//        if (StringUtils.isNotEmpty(modelName)) tableConfiguration.setDomainObjectName(modelName);
+//        tableConfiguration.setGeneratedKey(new GeneratedKey("id", "Mysql", true, null));
+//        context.addTableConfiguration(tableConfiguration);
+//
+//        List<String> warnings;
+//        MyBatisGenerator generator;
+//        try {
+//            Configuration config = new Configuration();
+//            config.addContext(context);
+//            config.validate();
+//
+//            boolean overwrite = true;
+//            DefaultShellCallback callback = new DefaultShellCallback(overwrite);
+//            warnings = new ArrayList<String>();
+//            generator = new MyBatisGenerator(config, callback, warnings);
+//            generator.generate(null);
+//        } catch (Exception e) {
+//            throw new RuntimeException("生成Model和Mapper失败", e);
+//        }
+//
+//        if (generator.getGeneratedJavaFiles().isEmpty() || generator.getGeneratedXmlFiles().isEmpty()) {
+//            throw new RuntimeException("生成Model和Mapper失败：" + warnings);
+//        }
+//        if (StringUtils.isEmpty(modelName)) modelName = tableNameConvertUpperCamel(tableName);
+//        System.out.println(modelName + ".java 生成成功");
+//        System.out.println(modelName + "Mapper.java 生成成功");
+//        System.out.println(modelName + "Mapper.xml 生成成功");
+//    }
 
     public static void genService(String tableName, String modelName) {
         try {
