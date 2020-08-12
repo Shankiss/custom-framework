@@ -1,15 +1,14 @@
-package ${basePackage}.web;
+package ${basePackage}.controller;
 
 import ${basePackage}.annotation.MyLog;
 import ${basePackage}.common.ResponseMsg;
 import ${basePackage}.utils.ResponseUtil;
-import ${basePackage}.model.${modelNameUpperCamel};
-import ${basePackage}.service.${modelNameUpperCamel}Service;
+import ${basePackage}.entity.${modelNameUpperCamel};
+import ${basePackage}.service.I${modelNameUpperCamel}Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
 /**
 * @Description TODO
@@ -20,20 +19,21 @@ import java.util.List;
 @RestController
 @RequestMapping("/api${baseRequestMapping}")
 public class ${modelNameUpperCamel}Controller {
+
     @Autowired
     private ${modelNameUpperCamel}Service ${modelNameLowerCamel}Service;
 
     @PostMapping
     @MyLog(description = "新增${comment}")
     public ResponseMsg add(@RequestBody ${modelNameUpperCamel} ${modelNameLowerCamel}) {
-        ${modelNameLowerCamel}Service.save(${modelNameLowerCamel});
+        ${modelNameLowerCamel}Service.insert(${modelNameLowerCamel});
         return ResponseUtil.success();
     }
 
     @DeleteMapping("/{id}")
     @MyLog(description = "删除${comment}")
     public ResponseMsg delete(@PathVariable Integer id) {
-        ${modelNameLowerCamel}Service.deleteById(id);
+        ${modelNameLowerCamel}Service.delete(id);
         return ResponseUtil.success();
     }
 
@@ -47,7 +47,7 @@ public class ${modelNameUpperCamel}Controller {
     @GetMapping("/{id}")
     @MyLog(description = "检索${comment}详情")
     public ResponseMsg detail(@PathVariable Integer id) {
-        ${modelNameUpperCamel} ${modelNameLowerCamel} = ${modelNameLowerCamel}Service.qryById(id);
+        ${modelNameUpperCamel} ${modelNameLowerCamel} = ${modelNameLowerCamel}Service.get(id);
         return ResponseUtil.success(${modelNameLowerCamel});
     }
 

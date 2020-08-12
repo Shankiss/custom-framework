@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
-@MapperScan("com.zyuc.demo.dao")
+@MapperScan("com.zyuc.demo.repository")
 public class DemoApplication {
 
     public static void main(String[] args) {

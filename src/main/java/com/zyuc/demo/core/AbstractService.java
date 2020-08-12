@@ -1,27 +1,31 @@
 package com.zyuc.demo.core;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.Resource;
 
-import java.lang.reflect.ParameterizedType;
-import java.util.List;
 
 /**
- * @Version 1.0
- * @Description 基于通用MyBatis Mapper插件的Service接口的实现
- * @Date 2020/7/2 11:17
- * @Created by ChenHao
+ *  泛型注入mapper实现通用方法
  */
-public abstract class AbstractService<T> implements Service<T> {
+public abstract class AbstractService<T> implements IService<T> {
 
-    @Autowired
-    protected Mapper<T> mapper;
+    @Resource
+    protected IMapper<T> mapper;
 
-    private Class<T> modelClass;    // 当前泛型真实类型的Class
+    public int insert(T model) {
+        return mapper.insert(model);
+    }
 
-    public AbstractService() {
-        ParameterizedType pt = (ParameterizedType) this.getClass().getGenericSuperclass();
-        modelClass = (Class<T>) pt.getActualTypeArguments()[0];
+    public int delete(Integer id) {
+        return mapper.delete(id);
+    }
+
+    public int update(T model) {
+        return mapper.update(model);
+    }
+
+    public T get(Integer id) {
+        return mapper.get(id);
     }
 
 }

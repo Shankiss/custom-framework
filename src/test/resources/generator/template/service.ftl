@@ -1,6 +1,7 @@
 package ${basePackage}.service;
-import ${basePackage}.model.${modelNameUpperCamel};
-import ${basePackage}.core.Service;
+
+import ${basePackage}.entity.${modelNameUpperCamel};
+import ${basePackage}.core.IService;
 
 
 /**
@@ -9,6 +10,6 @@ import ${basePackage}.core.Service;
 * @Created by ${author}
 * @Copyright Copyright (c) zyuc
 */
-public interface ${modelNameUpperCamel}Service extends Service<${modelNameUpperCamel}> {
+public interface I${modelNameUpperCamel}Service extends IService<${modelNameUpperCamel}> {
 
 }

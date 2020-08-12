@@ -32,8 +32,8 @@ public class CodeGenerator {
     private static final String TEMPLATE_FILE_PATH = PROJECT_PATH + "/src/test/resources/generator/template";//模板位置
 
     private static final String JAVA_PATH = "/src/main/java"; //java文件路径
-    private static final String RESOURCES_PATH = "/src/main/resources";//资源文件路径
 
+    private static final String PACKAGE_PATH_MAPPER = packageConvertPath(MAPPER_PACKAGE);//生成的Mapper存放路径
     private static final String PACKAGE_PATH_SERVICE = packageConvertPath(SERVICE_PACKAGE);//生成的Service存放路径
     private static final String PACKAGE_PATH_SERVICE_IMPL = packageConvertPath(SERVICE_IMPL_PACKAGE);//生成的Service实现存放路径
     private static final String PACKAGE_PATH_CONTROLLER = packageConvertPath(CONTROLLER_PACKAGE);//生成的Controller存放路径
@@ -43,13 +43,20 @@ public class CodeGenerator {
 
     public static void main(String[] args) {
         Map<String, String> tableMap = new HashMap<>();
-        tableMap.put("tableName", "user");//数据表
+        tableMap.put("tableName", "score");//数据表
 
         tableMap.put("comment", "用户");//数据表中文名
         tableMap.put("modelName", null);//自定义Model名称
 
+        Map<String, String> tableMap1 = new HashMap<>();
+        tableMap1.put("tableName", "score");//数据表
+
+        tableMap1.put("comment", "成绩");//数据表中文名
+        tableMap1.put("modelName", null);//自定义Model名称
+
         List<Map<String, String>> listMap = new ArrayList<>();
         listMap.add(tableMap);
+//        listMap.add(tableMap1);
 
         //生成代码
         genCode(listMap);
@@ -77,79 +84,105 @@ public class CodeGenerator {
      * @param comment   数据表中文名
      */
     public static void genCodeByCustomModelName(String tableName, String modelName, String comment) {
-//        genModelAndMapper(tableName, modelName);
-        genService(tableName, modelName);
-        genController(tableName, modelName, comment);
+        genModelAndMapper(tableName, modelName);
+//        genMapper(tableName, modelName);
+//        genService(tableName, modelName);
+//        genController(tableName, modelName, comment);
     }
 
 
-//    public static void genModelAndMapper(String tableName, String modelName) {
-//        Context context = new Context(ModelType.FLAT);
-//        context.setId("Potato");
-//        context.setTargetRuntime("MyBatis3Simple");
-//        context.addProperty(PropertyRegistry.CONTEXT_BEGINNING_DELIMITER, "`");
-//        context.addProperty(PropertyRegistry.CONTEXT_ENDING_DELIMITER, "`");
-//
-//        JDBCConnectionConfiguration jdbcConnectionConfiguration = new JDBCConnectionConfiguration();
-//        jdbcConnectionConfiguration.setConnectionURL(JDBC_URL);
-//        jdbcConnectionConfiguration.setUserId(JDBC_USERNAME);
-//        jdbcConnectionConfiguration.setPassword(JDBC_PASSWORD);
-//        jdbcConnectionConfiguration.setDriverClass(JDBC_DIVER_CLASS_NAME);
-//        context.setJdbcConnectionConfiguration(jdbcConnectionConfiguration);
-//
-////        PluginConfiguration pluginConfiguration = new PluginConfiguration();
-////        pluginConfiguration.setConfigurationType("tk.mybatis.mapper.generator.MapperPlugin");
-////        pluginConfiguration.addProperty("mappers", MAPPER_INTERFACE_REFERENCE);
-////        context.addPluginConfiguration(pluginConfiguration);
-//
-//        DefaultCommentGenerator
-//
-//        JavaModelGeneratorConfiguration javaModelGeneratorConfiguration = new JavaModelGeneratorConfiguration();
-//        javaModelGeneratorConfiguration.setTargetProject(PROJECT_PATH + JAVA_PATH);
-//        javaModelGeneratorConfiguration.setTargetPackage(MODEL_PACKAGE);
-//        context.setJavaModelGeneratorConfiguration(javaModelGeneratorConfiguration);
-//
-//        SqlMapGeneratorConfiguration sqlMapGeneratorConfiguration = new SqlMapGeneratorConfiguration();
-//        sqlMapGeneratorConfiguration.setTargetProject(PROJECT_PATH + RESOURCES_PATH);
-//        sqlMapGeneratorConfiguration.setTargetPackage("mapper");
-//        context.setSqlMapGeneratorConfiguration(sqlMapGeneratorConfiguration);
-//
+    public static void genModelAndMapper(String tableName, String modelName) {
+        Context context = new Context(ModelType.FLAT);
+        context.setId("Shanks");
+        context.setTargetRuntime("com.zyuc.demo.core.IntrospectedTable");
+        context.addProperty(PropertyRegistry.CONTEXT_BEGINNING_DELIMITER, "`");
+        context.addProperty(PropertyRegistry.CONTEXT_ENDING_DELIMITER, "`");
+
+        JDBCConnectionConfiguration jdbcConnectionConfiguration = new JDBCConnectionConfiguration();
+        jdbcConnectionConfiguration.setConnectionURL(JDBC_URL);
+        jdbcConnectionConfiguration.setUserId(JDBC_USERNAME);
+        jdbcConnectionConfiguration.setPassword(JDBC_PASSWORD);
+        jdbcConnectionConfiguration.setDriverClass(JDBC_DIVER_CLASS_NAME);
+        jdbcConnectionConfiguration.addProperty("nullCatalogMeansCurrent","true");
+        context.setJdbcConnectionConfiguration(jdbcConnectionConfiguration);
+
+        CommentGeneratorConfiguration commentGeneratorConfiguration = new CommentGeneratorConfiguration();
+        commentGeneratorConfiguration.setConfigurationType("com.zyuc.demo.core.CommentGenerator");
+        context.setCommentGeneratorConfiguration(commentGeneratorConfiguration);
+
+        JavaModelGeneratorConfiguration javaModelGeneratorConfiguration = new JavaModelGeneratorConfiguration();
+        javaModelGeneratorConfiguration.setTargetProject(PROJECT_PATH + JAVA_PATH);
+        javaModelGeneratorConfiguration.setTargetPackage(MODEL_PACKAGE);
+        context.setJavaModelGeneratorConfiguration(javaModelGeneratorConfiguration);
+
+        SqlMapGeneratorConfiguration sqlMapGeneratorConfiguration = new SqlMapGeneratorConfiguration();
+        sqlMapGeneratorConfiguration.setTargetProject(PROJECT_PATH + JAVA_PATH);
+        sqlMapGeneratorConfiguration.setTargetPackage(XML_PACKAGE);
+        context.setSqlMapGeneratorConfiguration(sqlMapGeneratorConfiguration);
+
 //        JavaClientGeneratorConfiguration javaClientGeneratorConfiguration = new JavaClientGeneratorConfiguration();
 //        javaClientGeneratorConfiguration.setTargetProject(PROJECT_PATH + JAVA_PATH);
 //        javaClientGeneratorConfiguration.setTargetPackage(MAPPER_PACKAGE);
 //        javaClientGeneratorConfiguration.setConfigurationType("XMLMAPPER");
 //        context.setJavaClientGeneratorConfiguration(javaClientGeneratorConfiguration);
-//
-//        TableConfiguration tableConfiguration = new TableConfiguration(context);
-//        tableConfiguration.setTableName(tableName);
-//        if (StringUtils.isNotEmpty(modelName)) tableConfiguration.setDomainObjectName(modelName);
-//        tableConfiguration.setGeneratedKey(new GeneratedKey("id", "Mysql", true, null));
-//        context.addTableConfiguration(tableConfiguration);
-//
-//        List<String> warnings;
-//        MyBatisGenerator generator;
-//        try {
-//            Configuration config = new Configuration();
-//            config.addContext(context);
-//            config.validate();
-//
-//            boolean overwrite = true;
-//            DefaultShellCallback callback = new DefaultShellCallback(overwrite);
-//            warnings = new ArrayList<String>();
-//            generator = new MyBatisGenerator(config, callback, warnings);
-//            generator.generate(null);
-//        } catch (Exception e) {
-//            throw new RuntimeException("生成Model和Mapper失败", e);
-//        }
-//
-//        if (generator.getGeneratedJavaFiles().isEmpty() || generator.getGeneratedXmlFiles().isEmpty()) {
-//            throw new RuntimeException("生成Model和Mapper失败：" + warnings);
-//        }
-//        if (StringUtils.isEmpty(modelName)) modelName = tableNameConvertUpperCamel(tableName);
-//        System.out.println(modelName + ".java 生成成功");
-//        System.out.println(modelName + "Mapper.java 生成成功");
-//        System.out.println(modelName + "Mapper.xml 生成成功");
-//    }
+
+        TableConfiguration tableConfiguration = new TableConfiguration(context);
+        tableConfiguration.setTableName(tableName);
+        tableConfiguration.setCountByExampleStatementEnabled(false);
+        tableConfiguration.setDeleteByExampleStatementEnabled(false);
+        tableConfiguration.setSelectByExampleStatementEnabled(false);
+        tableConfiguration.setUpdateByExampleStatementEnabled(false);
+        if (StringUtils.isNotEmpty(modelName)) tableConfiguration.setDomainObjectName(modelName);
+        tableConfiguration.setGeneratedKey(new GeneratedKey("id", "Mysql", true, null));
+        context.addTableConfiguration(tableConfiguration);
+
+        List<String> warnings;
+        MyBatisGenerator generator;
+        try {
+            Configuration config = new Configuration();
+            config.addContext(context);
+            config.validate();
+
+            boolean overwrite = true;
+            DefaultShellCallback callback = new DefaultShellCallback(overwrite);
+            warnings = new ArrayList<String>();
+            generator = new MyBatisGenerator(config, callback, warnings);
+            generator.generate(null);
+        } catch (Exception e) {
+            throw new RuntimeException("生成Model和Mapper失败", e);
+        }
+
+        if (generator.getGeneratedJavaFiles().isEmpty() || generator.getGeneratedXmlFiles().isEmpty()) {
+            throw new RuntimeException("生成Model和Mapper失败：" + warnings);
+        }
+        if (StringUtils.isEmpty(modelName)) modelName = tableNameConvertUpperCamel(tableName);
+        System.out.println(modelName + ".java 生成成功");
+        System.out.println(modelName + "Mapper.xml 生成成功");
+    }
+
+    public static void genMapper(String tableName,String modelName){
+        try{
+            freemarker.template.Configuration cfg = getConfiguration();
+
+            Map<String, Object> data = new HashMap<>();
+            data.put("date", DATE);
+            data.put("author", AUTHOR);
+            String modelNameUpperCamel = StringUtils.isEmpty(modelName) ? tableNameConvertUpperCamel(tableName) : modelName;
+            data.put("modelNameUpperCamel", modelNameUpperCamel);
+            data.put("modelNameLowerCamel", CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_CAMEL, modelNameUpperCamel));
+            data.put("basePackage", BASE_PACKAGE);
+
+            File file = new File(PROJECT_PATH + JAVA_PATH + PACKAGE_PATH_MAPPER + "I" + modelNameUpperCamel + "Mapper.java");
+            if (!file.getParentFile().exists()) {
+                file.getParentFile().mkdirs();
+            }
+            cfg.getTemplate("mapper.ftl").process(data, new FileWriter(file));
+
+            System.out.println(modelNameUpperCamel + "Mapper 生成成功");
+        } catch (Exception e) {
+            throw new RuntimeException("生成Mapper失败", e);
+        }
+    }
 
     public static void genService(String tableName, String modelName) {
         try {
@@ -163,7 +196,7 @@ public class CodeGenerator {
             data.put("modelNameLowerCamel", tableNameConvertLowerCamel(tableName));
             data.put("basePackage", BASE_PACKAGE);
 
-            File file = new File(PROJECT_PATH + JAVA_PATH + PACKAGE_PATH_SERVICE + modelNameUpperCamel + "Service.java");
+            File file = new File(PROJECT_PATH + JAVA_PATH + PACKAGE_PATH_SERVICE + "I" + modelNameUpperCamel + "Service.java");
             if (!file.getParentFile().exists()) {
                 file.getParentFile().mkdirs();
             }
