@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 /**
  * @Version 1.0
- * @Description Service 层 基础接口，其他Service 接口 请继承该接口
+ * @Description Service层基础接口
  * @Date 2020/7/2 10:30
  * @Created by ChenHao
  */
