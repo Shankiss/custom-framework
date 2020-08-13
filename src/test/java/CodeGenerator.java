@@ -48,11 +48,11 @@ public class CodeGenerator {
         tableMap.put("comment", "用户");//数据表中文名
         tableMap.put("modelName", null);//自定义Model名称
 
-        Map<String, String> tableMap1 = new HashMap<>();
-        tableMap1.put("tableName", "score");//数据表
-
-        tableMap1.put("comment", "成绩");//数据表中文名
-        tableMap1.put("modelName", null);//自定义Model名称
+//        Map<String, String> tableMap1 = new HashMap<>();
+//        tableMap1.put("tableName", "score");//数据表
+//
+//        tableMap1.put("comment", "成绩");//数据表中文名
+//        tableMap1.put("modelName", null);//自定义Model名称
 
         List<Map<String, String>> listMap = new ArrayList<>();
         listMap.add(tableMap);
@@ -119,12 +119,6 @@ public class CodeGenerator {
         sqlMapGeneratorConfiguration.setTargetProject(PROJECT_PATH + JAVA_PATH);
         sqlMapGeneratorConfiguration.setTargetPackage(XML_PACKAGE);
         context.setSqlMapGeneratorConfiguration(sqlMapGeneratorConfiguration);
-
-//        JavaClientGeneratorConfiguration javaClientGeneratorConfiguration = new JavaClientGeneratorConfiguration();
-//        javaClientGeneratorConfiguration.setTargetProject(PROJECT_PATH + JAVA_PATH);
-//        javaClientGeneratorConfiguration.setTargetPackage(MAPPER_PACKAGE);
-//        javaClientGeneratorConfiguration.setConfigurationType("XMLMAPPER");
-//        context.setJavaClientGeneratorConfiguration(javaClientGeneratorConfiguration);
 
         TableConfiguration tableConfiguration = new TableConfiguration(context);
         tableConfiguration.setTableName(tableName);

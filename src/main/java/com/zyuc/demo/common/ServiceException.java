@@ -21,6 +21,11 @@ public class ServiceException extends RuntimeException {
         super(message, cause);
     }
 
+    public ServiceException(ErrorEnum errorEnum, Throwable cause) {
+        super(errorEnum.getMsg(), cause);
+        this.code=errorEnum.getCode();
+    }
+
     public Integer getCode() {
         return code;
     }

@@ -14,9 +14,9 @@ import org.mybatis.generator.internal.util.messages.Messages;
  * @Date 2020/8/12 14:26
  * @Created by ChenHao
  */
-public class InTroXmlMapperGenerator extends XMLMapperGenerator {
+public class IntroXmlMapperGenerator extends XMLMapperGenerator {
 
-    public InTroXmlMapperGenerator() {
+    public IntroXmlMapperGenerator() {
     }
 
     public XmlElement getSqlMapElement() {

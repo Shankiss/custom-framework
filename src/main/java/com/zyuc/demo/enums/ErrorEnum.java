@@ -8,6 +8,10 @@ package com.zyuc.demo.enums;
  */
 public enum ErrorEnum {
     INTERNAL_SERVER_ERROR(500, "系统内部错误"),
+    INSERT_DATA_ERROR(101,"插入数据错误"),
+    UPDATE_DATA_ERROR(102,"更新数据错误"),
+    QUERY_DATA_ERROR(103,"查询数据错误"),
+    DELETE_DATA_ERROR(104,"删除数据错误")
     ;
 
     ErrorEnum(Integer code, String msg) {

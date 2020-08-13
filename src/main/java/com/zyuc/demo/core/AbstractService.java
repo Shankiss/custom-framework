@@ -1,6 +1,9 @@
 package com.zyuc.demo.core;
 
 
+import com.zyuc.demo.common.ServiceException;
+import com.zyuc.demo.enums.ErrorEnum;
+
 import javax.annotation.Resource;
 
 
@@ -12,20 +15,46 @@ public abstract class AbstractService<T> implements IService<T> {
     @Resource
     protected IMapper<T> mapper;
 
-    public int insert(T model) {
-        return mapper.insert(model);
+    public T insert(T model) throws ServiceException {
+        try {
+            int result =  mapper.insert(model);
+            if(result<=0){
+                throw new ServiceException(ErrorEnum.INSERT_DATA_ERROR);
+            }
+            return model;
+        } catch (Exception e) {
+            throw new ServiceException(ErrorEnum.INSERT_DATA_ERROR,e);
+        }
     }
 
-    public int delete(Integer id) {
-        return mapper.delete(id);
+    public boolean update(T model) throws ServiceException{
+        try {
+            int result = mapper.update(model);
+            if (result <= 0)
+                return false;
+        } catch (Exception e) {
+            throw new ServiceException(ErrorEnum.UPDATE_DATA_ERROR,e);
+        }
+        return true;
     }
 
-    public int update(T model) {
-        return mapper.update(model);
+    public T get(Integer id) throws ServiceException{
+        try {
+            return mapper.get(id);
+        } catch (Exception e) {
+            throw new ServiceException(ErrorEnum.QUERY_DATA_ERROR,e);
+        }
     }
 
-    public T get(Integer id) {
-        return mapper.get(id);
+    public boolean delete(Integer id) throws ServiceException{
+        try {
+            int result = mapper.delete(id);
+            if (result <= 0)
+                return false;
+        } catch (Exception e) {
+            throw new ServiceException(ErrorEnum.DELETE_DATA_ERROR,e);
+        }
+        return true;
     }
 
 }

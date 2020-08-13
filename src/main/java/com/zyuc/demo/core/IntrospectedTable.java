@@ -18,7 +18,7 @@ public class IntrospectedTable extends IntrospectedTableMyBatis3Impl {
                                                List<String> warnings,
                                                ProgressCallback progressCallback) {
 
-        xmlMapperGenerator = new InTroXmlMapperGenerator();
+        xmlMapperGenerator = new IntroXmlMapperGenerator();
 
         initializeAbstractGenerator(xmlMapperGenerator, warnings,
                 progressCallback);
