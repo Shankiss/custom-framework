@@ -1,4 +1,4 @@
-package com.zyuc.demo.core;
+package com.zyuc.demo.core.custom.mbg;
 
 import org.mybatis.generator.api.ProgressCallback;
 import org.mybatis.generator.codegen.AbstractJavaClientGenerator;
@@ -12,13 +12,13 @@ import java.util.List;
  * @Date 2020/8/12 14:23
  * @Created by ChenHao
  */
-public class IntrospectedTable extends IntrospectedTableMyBatis3Impl {
+public class CustomTargetRuntime extends IntrospectedTableMyBatis3Impl {
 
     protected void calculateXmlMapperGenerator(AbstractJavaClientGenerator javaClientGenerator,
                                                List<String> warnings,
                                                ProgressCallback progressCallback) {
 
-        xmlMapperGenerator = new IntroXmlMapperGenerator();
+        xmlMapperGenerator = new CustomXmlMapperGenerator();
 
         initializeAbstractGenerator(xmlMapperGenerator, warnings,
                 progressCallback);
@@ -32,7 +32,7 @@ public class IntrospectedTable extends IntrospectedTableMyBatis3Impl {
         this.setSqlMapFullyQualifiedRuntimeTableName(this.calculateSqlMapFullyQualifiedRuntimeTableName());
         this.setSqlMapAliasedFullyQualifiedRuntimeTableName(this.calculateSqlMapAliasedFullyQualifiedRuntimeTableName());
         this.setDeleteByPrimaryKeyStatementId("delete");
-        this.setInsertSelectiveStatementId("insert");
+        this.setInsertStatementId("insert");
         this.setSelectByPrimaryKeyStatementId("get");
         this.setUpdateByPrimaryKeySelectiveStatementId("update");
         this.setBaseResultMapId("BaseResultMap");

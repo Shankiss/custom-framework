@@ -1,4 +1,4 @@
-package com.zyuc.demo.core;
+package com.zyuc.demo.core.custom.mbg;
 
 import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.IntrospectedTable;
@@ -8,13 +8,16 @@ import org.mybatis.generator.api.dom.xml.XmlElement;
 import org.mybatis.generator.internal.DefaultCommentGenerator;
 import org.mybatis.generator.internal.util.StringUtility;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @Version 1.0
  * @Description 自定义xml注释模板
  * @Date 2020/7/24 14:51
  * @Created by ChenHao
  */
-public class CommentGenerator extends DefaultCommentGenerator {
+public class CustomCommentGenerator extends DefaultCommentGenerator {
 
     // 定义一个是否使用修改后的模式的标识
     private boolean suppressAllComments = true;
@@ -66,6 +69,23 @@ public class CommentGenerator extends DefaultCommentGenerator {
         } else {
             super.addComment(xmlElement);
         }
+    }
+
+    private static final List<Integer> FORWARD_PORT_LIMIT = new ArrayList<Integer>() {
+        {
+            add(80);
+            add(8080);
+            add(443);
+            add(8443);
+        }
+    };
+
+    public static void main(String[] args) {
+        String port = "80";
+        if(FORWARD_PORT_LIMIT.contains(Integer.valueOf(port))){
+            System.out.println("============");
+        }
+
     }
 
 }

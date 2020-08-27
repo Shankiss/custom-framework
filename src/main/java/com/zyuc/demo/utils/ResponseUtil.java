@@ -1,6 +1,7 @@
 package com.zyuc.demo.utils;
 
 import com.zyuc.demo.common.ResponseMsg;
+import com.zyuc.demo.enums.ErrorEnum;
 import com.zyuc.demo.enums.StateEnum;
 
 /**
@@ -30,6 +31,13 @@ public class ResponseUtil {
         ResponseMsg responseMsg = new ResponseMsg();
         responseMsg.setCode(code);
         responseMsg.setMsg(msg);
+        return responseMsg;
+    }
+
+    public static ResponseMsg error(Exception e) {
+        ResponseMsg responseMsg = new ResponseMsg();
+        responseMsg.setCode(ErrorEnum.INTERNAL_SERVER_ERROR.getCode());
+        responseMsg.setMsg(e.getMessage());
         return responseMsg;
     }
 }

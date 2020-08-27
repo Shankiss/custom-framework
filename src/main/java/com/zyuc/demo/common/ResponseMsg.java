@@ -8,13 +8,19 @@ package com.zyuc.demo.common;
  */
 public class ResponseMsg<T> {
 
-    /** 错误码 */
+    /**
+     * 错误码
+     */
     private Integer code;
 
-    /** 提示信息 */
+    /**
+     * 提示信息
+     */
     private String msg;
 
-    /** 返回数据 */
+    /**
+     * 返回数据
+     */
     private T data;
 
     public Integer getCode() {

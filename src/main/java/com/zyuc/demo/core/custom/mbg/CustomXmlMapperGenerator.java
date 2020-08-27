@@ -1,4 +1,4 @@
-package com.zyuc.demo.core;
+package com.zyuc.demo.core.custom.mbg;
 
 import org.mybatis.generator.api.FullyQualifiedTable;
 import org.mybatis.generator.api.dom.xml.Attribute;
@@ -14,9 +14,9 @@ import org.mybatis.generator.internal.util.messages.Messages;
  * @Date 2020/8/12 14:26
  * @Created by ChenHao
  */
-public class IntroXmlMapperGenerator extends XMLMapperGenerator {
+public class CustomXmlMapperGenerator extends XMLMapperGenerator {
 
-    public IntroXmlMapperGenerator() {
+    public CustomXmlMapperGenerator() {
     }
 
     public XmlElement getSqlMapElement() {
@@ -31,7 +31,7 @@ public class IntroXmlMapperGenerator extends XMLMapperGenerator {
         this.addResultMapWithoutBLOBsElement(answer);
         this.addBaseColumnListElement(answer);
         this.addSelectByPrimaryKeyElement(answer);
-        this.addInsertSelectiveElement(answer);
+        this.addInsertElement(answer);
         this.addUpdateByPrimaryKeySelectiveElement(answer);
         this.addDeleteByPrimaryKeyElement(answer);
 

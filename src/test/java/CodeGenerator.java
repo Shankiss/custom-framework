@@ -43,7 +43,7 @@ public class CodeGenerator {
 
     public static void main(String[] args) {
         Map<String, String> tableMap = new HashMap<>();
-        tableMap.put("tableName", "score");//数据表
+        tableMap.put("tableName", "user");//数据表
 
         tableMap.put("comment", "用户");//数据表中文名
         tableMap.put("modelName", null);//自定义Model名称
@@ -85,16 +85,16 @@ public class CodeGenerator {
      */
     public static void genCodeByCustomModelName(String tableName, String modelName, String comment) {
         genModelAndMapper(tableName, modelName);
-//        genMapper(tableName, modelName);
-//        genService(tableName, modelName);
-//        genController(tableName, modelName, comment);
+        genMapper(tableName, modelName);
+        genService(tableName, modelName);
+        genController(tableName, modelName, comment);
     }
 
 
     public static void genModelAndMapper(String tableName, String modelName) {
         Context context = new Context(ModelType.FLAT);
         context.setId("Shanks");
-        context.setTargetRuntime("com.zyuc.demo.core.IntrospectedTable");
+        context.setTargetRuntime("com.zyuc.demo.core.custom.mbg.CustomTargetRuntime");
         context.addProperty(PropertyRegistry.CONTEXT_BEGINNING_DELIMITER, "`");
         context.addProperty(PropertyRegistry.CONTEXT_ENDING_DELIMITER, "`");
 
@@ -107,8 +107,12 @@ public class CodeGenerator {
         context.setJdbcConnectionConfiguration(jdbcConnectionConfiguration);
 
         CommentGeneratorConfiguration commentGeneratorConfiguration = new CommentGeneratorConfiguration();
-        commentGeneratorConfiguration.setConfigurationType("com.zyuc.demo.core.CommentGenerator");
+        commentGeneratorConfiguration.setConfigurationType("com.zyuc.demo.core.custom.mbg.CustomCommentGenerator");
         context.setCommentGeneratorConfiguration(commentGeneratorConfiguration);
+
+        PluginConfiguration pluginConfiguration = new PluginConfiguration();
+        pluginConfiguration.setConfigurationType("com.zyuc.demo.core.custom.mbg.CustomPlugin");
+        context.addPluginConfiguration(pluginConfiguration);
 
         JavaModelGeneratorConfiguration javaModelGeneratorConfiguration = new JavaModelGeneratorConfiguration();
         javaModelGeneratorConfiguration.setTargetProject(PROJECT_PATH + JAVA_PATH);

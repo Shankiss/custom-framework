@@ -1,5 +1,7 @@
 package com.zyuc.demo.core;
 
+import java.util.List;
+
 /**
  * @Version 1.0
  * @Description 通用Mapper接口
@@ -15,5 +17,7 @@ public interface IMapper<T> {
     int update(T model);
 
     int delete(Integer id);
+
+    List<T> page (T model);
 
 }

@@ -3,6 +3,7 @@ package com.zyuc.demo.core;
 import com.zyuc.demo.common.ServiceException;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @Version 1.0
@@ -19,5 +20,7 @@ public interface IService<T> extends Serializable {
     boolean delete(Integer id) throws ServiceException;
 
     T get(Integer id) throws ServiceException;
+
+    List<T> page(T model) throws ServiceException;
 
 }
