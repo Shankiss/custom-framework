@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zyuc.demo.repository.IUserMapper">
+  
+  <resultMap id="BaseResultMap" type="com.zyuc.demo.entity.User">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
+    <result column="sex" jdbcType="INTEGER" property="sex" />
+    <result column="register_date" jdbcType="TIMESTAMP" property="registerDate" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    id, username, password, nick_name, sex, register_date
+  </sql>
+  
+  <select id="get" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <insert id="insert" parameterType="com.zyuc.demo.entity.User">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into user (username, password, nick_name, 
+      sex, register_date)
+    values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, 
+      #{sex,jdbcType=INTEGER}, #{registerDate,jdbcType=TIMESTAMP})
+  </insert>
+  
+  <update id="update" parameterType="com.zyuc.demo.entity.User">
+    update user
+    <set>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null">
+        nick_name = #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="registerDate != null">
+        register_date = #{registerDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <delete id="delete" parameterType="java.lang.Integer">
+    delete from user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <sql id="Base_Query">
+    <trim prefix="where" prefixOverrides="AND | OR">
+      <if test="null != id">
+         and id = #{id,jdbcType=INTEGER}
+      </if>
+      <if test="null != username">
+         and username = #{username,jdbcType=VARCHAR}
+      </if>
+      <if test="null != password">
+         and password = #{password,jdbcType=VARCHAR}
+      </if>
+      <if test="null != nickName">
+         and nick_name = #{nickName,jdbcType=VARCHAR}
+      </if>
+      <if test="null != sex">
+         and sex = #{sex,jdbcType=INTEGER}
+      </if>
+      <if test="null != registerDate">
+         and register_date = #{registerDate,jdbcType=TIMESTAMP}
+      </if>
+    </trim>
+  </sql>
+  
+  <select id="page" parameterType="com.zyuc.demo.entity.User" resultMap="BaseResultMap">
+    select
+	 <include refid="Base_Column_List" />
+	 from user
+    <include refid="Base_Query" />
+  </select>
+</mapper>
