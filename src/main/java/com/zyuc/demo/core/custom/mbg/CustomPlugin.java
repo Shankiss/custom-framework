@@ -32,13 +32,4 @@ public class CustomPlugin extends PluginAdapter {
         return super.sqlMapDocumentGenerated(document, introspectedTable);
     }
 
-    @Override
-    public boolean clientGenerated(Interface interfaze, IntrospectedTable introspectedTable) {
-        AbstractJavaMapperMethodGenerator methodGenerator = new CustomJavaMapperMethodGenerator();
-        methodGenerator.setContext(context);
-        methodGenerator.setIntrospectedTable(introspectedTable);
-        methodGenerator.addInterfaceElements(interfaze);
-        return super.clientGenerated(interfaze, introspectedTable);
-    }
-
 }
